@@ -1,0 +1,35 @@
+# This playbook installs and starts Nginx, and installs Node.js on all hosts.
+
+# TASK I
+- name: Install and start nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+
+# TASK II
+- name: Install Node.js
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Node.js
+      apt:
+        name: nodejs
+        state: present
+
+# Steps followed before running this playbook:
+# - Created two EC2 instances on AWS.
+# - Configured passwordless SSH between the source instance (where Ansible is run) and the target instance.
+# - Created inventory that will store the private IP address of the target instances.
+# - Ran this Ansible playbook from the source instance to configure the target instance.
+#   - > ansible-playbook -i inventory basic-playbook.yml
+# - For single task execution : > ansible -i inventory -m "shell" -a "touch newFile"
